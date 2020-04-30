@@ -1,0 +1,4 @@
+
+
+PREMISSION_READ = "read"
+PREMISSION_WRITE = "write"

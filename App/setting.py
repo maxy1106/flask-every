@@ -1,4 +1,7 @@
 import pymysql
+import os
+
+
 def geturi(datainfo):
     enging = datainfo.get('ENGING')
     driver = datainfo.get('DRIVER')
@@ -32,7 +35,7 @@ class DevelopConnection(Config):
         'PASSWORD':'root',
         'HOST':'123.57.148.207',
         'PORT':'3306',
-        'NAME':'flaskAPI'
+        'NAME':'flaskTpp'
     }
     SQLALCHEMY_DATABASE_URI = geturi(datainfo)
 
@@ -53,3 +56,7 @@ envs = {
     'develop' :DevelopConnection,
     'testing' :TestingConnection
 }
+
+BASE_DIR = os.path.dirname(__file__)
+FILE_UP_LOADS = '/static/movie/icon/'
+FILE_UP_LOADS_PATH = BASE_DIR + '/static/movie/icon/'

@@ -1,0 +1,547 @@
+redis操作
+string
+ set name
+ get name
+ mset
+ mget 
+set ex
+incr 
+decr
+append
+strlen
+
+keys * 
+exists key1
+type key
+del key1 key2
+expire key 时间   设置过期时间
+ttl key 查看 key 过期时间还剩多少秒
+
+hash
+hset 
+hget 
+hmset
+hmget
+hgetall
+hvals
+hdel
+hexists
+hincrby
+
+list 
+lpush
+rpush
+lpushx
+llen
+linsert
+lset
+lpop
+lindex
+lrange
+
+
+sadd
+
+1.Redis:
+缓存，毫无疑问这是Redis当今最为人熟知的使用场景。再提升服务器性能方面非常有效；
+
+排行榜，如果使用传统的关系型数据库来做这个事儿，非常的麻烦，而利用Redis的SortSet数据结构能够非常方便搞定；
+
+计算器/限速器，利用Redis中原子性的自增操作，我们可以统计类似用户点赞数、用户访问数等，这类操作如果用MySQL，频繁的读写会带来相当大的压力；限速器比较典型的使用场景是限制某个用户访问某个API的频率，常用的有抢购时，防止用户疯狂点击带来不必要的压力；
+
+注：限速器也是对请求限流的一种实现方式。
+
+好友关系，利用集合的一些命令，比如求交集、并集、差集等。可以方便搞定一些共同好友、共同爱好之类的功能；
+
+简单消息队列，除了Redis自身的发布/订阅模式，我们也可以利用List来实现一个队列机制，比如：到货通知、邮件发送之类的需求，不需要高可靠，但是会带来非常大的DB压力，完全可以用List来完成异步解耦；
+
+Session共享，默认Session是保存在服务器的文件中，即当前服务器，如果是集群服务，同一个用户过来可能落在不同机器上，这就会导致用户频繁登陆；采用Redis保存Session后，无论用户落在那台机器上都能够获取到对应的Session信息
+
+
+1.flask使用操作
+  1.启动flask
+		  a. set FLASK_APP=app.py
+		  b. python -m flask run
+	2.处理应用错误  Sentry 
+			a. pip install sentry-sdk[flask]
+  3.定义报错
+  		class InsufficientStorage(werkzeug.exceptions.HTTPException):
+      code = 507
+      description = 'Not enough storage space.'
+      app.register_error_handler(InsufficientStorage, handle_507)
+      raise InsufficientStorage()
+   4. werkzeug
+
+2.mysql 操作
+   1.删除表：drop table user;
+   2.查看表结构： desc user;
+   3.登陆MySQL ： mysql -uroot -proot
+   4.给现有表增加字段：ALTER TABLE author ADD date DATE;
+   5.创建表：create table author (author_id int not null auto_increment,author_name varchar(40) not null,PRIMARY KEY (author_id));
+	 6.给现有字段设置为外键：alter table book add constraint author_id foreign key(author_id) references author(author_id);
+                           references 意思引用哪个表的哪个键作为外键
+   7.表中插入数据：insert into book (book_id,book_name,author_id) values(001,'python',1);
+3.mysql约束 constraint
+   非空约束(not null)
+	唯一性约束(unique)
+	主键约束(primary key) PK
+	外键约束(foreign key) FK
+	检查约束(目前MySQL不支持、Oracle支持)
+	
+4. flask 数据库操作增删改查 ：https://www.cnblogs.com/xiaxiaoxu/p/10597448.html 
+5.#  常用的SQLAlchemy查询过滤器
+      filter()         把过滤器添加到原查询上，返回一个新查询
+      filter_by() 把等值过滤器添加到原查询上，返回一个新查询,通常用在外键的查询
+      limit            使用指定的值限定原查询返回的结果
+      offset()       偏移原查询返回的结果，返回一个新查询
+      order_by()  根据指定条件对原查询结果进行排序，返回一个新查询
+      group_by()  根据指定条件对原查询结果进行分组，返回一个新查询
+6.# 常用的SQLAlchemy查询执行器
+      all()       以列表形式返回查询的所有结果
+      first()   返回查询的第一个结果，如果未查到，返回None
+      first_or_404()   返回查询的第一个结果，如果未查到，返回404
+      get()   返回指定主键对应的行，如不存在，返回None
+      get_or_404()    返回指定主键对应的行，如不存在，返回404
+      count() 返回查询结果的数量
+      paginate()  返回一个Paginate对象，它包含指定范围内的结果
+7.关系引用：book = db.relationship('Book',backref='books')
+     这句话写在Author模型下，author会引用Book里面的内容 使用 book_all = Author.query.first().book 就会查找第一个作者有哪些书,使用book_all.book_name 就会打印这些书的bookname
+8.debugger:拥有保护功能，PIN ，如果需要在界面中提示，需要输入PIN。
+9.flask_script :flask-script的作用是可以通过命令行的形式来操作Flask。例如通过命令跑一个开发版本的服务器、设置数据库，定时任务等。
+	 a.可以添加flask脚本的扩展库
+	 b.添加命令行参数
+10.路由管理，容易出现循环引用的问题，可以使用懒加载函数循环引用的方式。可以用11蓝图解决
+11.蓝图：flask_blueprint
+12.数据库：
+ 		1.ORM
+ 		    SQLAlchemy
+13.公司开发环境
+		a.开发环境
+		b.测试环境
+		c.演示环境
+		d.生产环境
+		看电脑环境 vim .bashrc
+14.flask-migrate DB迁移
+   python manager.py db init  第一次使用运行需要初始化，初始化之后会生成文件
+   python manager.py db migrate  生成一个文件映射 （修改时用）
+   python manager.py db upgrade 执行后数据库出现 alembic_version 表，表示迁移记录版本（修改后提交）
+   python manager.py db downgrade 删除文件将文件降级（）
+   
+   migrate.init_app(app,db)
+   
+15.flask 路由传递参数类型：int,float,string,path,any
+   默认支持：GET,HEAD,OPTIONS
+   request 获取 GET请求 request.args 获取到的内容为 列表里面的参数为元祖，并且元组是key value 形式：ImmutableMultiDict([('name', 'hahha'), ('password', '12345')]) 类型为： <class 'werkzeug.datastructures.ImmutableMultiDict'>
+                POST请求 request.form 接收表单数据 put,patch,post  ImmutableMultiDict([])  <class 'werkzeug.datastructures.ImmutableMultiDict'>                
+                ImmutableMultiDict 获取 dict.get("username")
+                request.files 文件上传
+                headers
+   
+16.FLASK 内置对象：request，session，config（app）,g 
+      g用来跨函数传递对象
+      config 相当于是app.congig  app调用之后才生效 config = current_app.config
+
+17.from flask import Blueprint,request,render_template,make_response,Response,abort,session
+   from flask_migrate import MigrateCommand 数据库迁移
+   from flask_script import Manager 可以输命令行调试
+   from flask_sqlalchemy import SQLAlchemy
+	 from flask_migrate import Migrate
+	 from flask_session import Session
+	 from redis import Redis
+	 from flask_restful import Api, Resource
+	 from flask_mail import Mail
+	 from flask import Blueprint,render_template,request,g,current_app
+	 from flask_cache import Cache 这个要求flask版本，最新的flask 用的 from flask_caching import Cache  (缓存)
+	 flask_debugtoolbar 页面添加调试工具条
+	 pip --default-timeout=100 install gevent  如果是pip 的时候发生timeout 可以修改timeout时间
+	 
+	 from flask import request, jsonify
+	 from flask_restful import Resource, abort, fields, marshal,marshal_with
+	 from flask_restful import Api, Resource
+     
+	 
+18.response 服务器返回给客户端的数据   1.直接返回response对象， 2.make_response(data,code) <Response 15 bytes [5678]>  <class 'flask.wrappers.Response'>  3.返回文本内容状态码 4.返回模板
+			response 终止 abort(404) 如果错误代码是系统自带的，就显示系统自带的错误，如果是没有定义的，显示 LookupError   LookupError: no exception for 1000
+			捕获异常 @app.errorhandler(404)  打印的错误类型为 <class 'werkzeug.exceptions.NotFound'>
+
+19.重定向 redirect   反向解析（url_for）
+20.使用render_templates 时，如果执行文件是一个文件时和 templates文件夹和它在一层级。blue = Blueprint('blue',__name__,template_folder='templates')
+21.会话技术：跨请求共享数据。出现原因：http都是短连接，http请求是无状态的，请求从request到response就结束了
+    Cookie:客户端会话技术，数据存储在客户端，key-value ,默认对中文进行了处理，直接可用中文
+    Session：flask中session 的时间为31天。 session需要secret_key 服务端会话技术，数据存储在服务器，key_value ， flask中 将session存储在cookie中，对数据进行序列化，进行base64,进行zlib压缩，传递hash
+    Token
+    
+22.Flask-session 实现了服务端session，将数据存在
+
+23.启动redis 服务 redis-5.0.7/usr/local/soft/redis5/bin/redis-server redis-5.0.7/usr/local/soft/redis5/conf/redis.conf
+   启动redis-cli客户端 redis-5.0.7/usr/local/soft/redis5/bin/redis-cli
+   redis-5.0.7/usr/local/soft/redis5/bin/redis-cli -h 123.57.148.207 -p 6379
+   关闭redis redis-5.0.7/usr/local/soft/redis5/bin/redis-cli -p 6379 shutdown
+   查看 ps -ef |grep redis
+   查看端口是否监控 netstat -lntp | grep 6379
+   https://blog.csdn.net/renfeigui0/article/details/103182585
+   https://blog.csdn.net/billsteve/article/details/76151319
+   其他常用：
+		   /usr/local/redis/src/redis-server			#前台启动redis服务，ctrl+c可退出服务
+			/usr/local/redis/src/redis-server /usr/local/redis/redis.conf   #按配置文件启动redis服务
+			nohup /usr/local/redis/src/redis-server /usr/local/redis/redis.conf  #后台启动redis服务
+			pkill redis 								#停止后台redis服务，停止前不会保存快照
+			/usr/local/redis/src/redis-cli -p 6379 shutdown   #停止后台redis服务，停止前保存快照
+			/usr/local/redis/src/redis-cli -p 6379 -h 192.168.1.210  #连接192.168.1.210redis服务
+			/usr/local/redis/src/redis-cli				#启动客户端
+			exit   	                                    #退出客户端，quit、Ctrl+C也可退出。
+			find / -name  "redis*" -exec rm  -rf  {}   \;  	#删除安装目录，卸载redis程序
+
+   redis密码 无
+   RedisSessionInterface 将数据进行pickle序列化
+   
+   
+24.linux删除命令 rm -rf 文件名
+
+25. 阿里云centos8开启防火墙 https://www.cnblogs.com/rxbook/p/8110143.html
+
+		
+27.for else 循环
+28.过滤器 {{变量|过滤器|过滤器}}
+29.flask_bootstrap
+    bootstrap/base.html
+    flask template 的结构标签
+		1、继承：block，实现模板页面固定不变的区域，一般用来菜单，底部栏等，模板不支持多继承、继承的结束需要加上区域块的名称；建议继承语句写在模板页面的顶部
+		             子类要继承的父类 block内容，父类必须存在
+		         extends
+		         
+		2、宏：macro，实现模板页面功能代码块的封装，类似python中的函数
+		3、包含：include，将其他的html包含进来，体现的由零到一的概念 实现原始静态页面的完整复用，wtf表单对象不能复用；
+    
+30.主页轮播图 页面路径地址接口，立即预约 表单 接口用户名手机号描述
+   登录后 用户名和头像 url 图片存在服务器上
+   登录 判断手机号登录还是用户名登录，登录成功返回用户信息和 token 
+   选课查询返回教师信息 课程信息等资料
+   待上课信息分页，上课多长时间 存在redis中
+   订单 对接支付
+
+31.ORM SQLAlchemy等
+		数据库表关系：
+		         1：1 ForeignKey
+		         1：M ForeignKey
+		         M:N ForeignKey,ForeignKey
+32.模型
+    约束，主键啥的
+    模型的信息指定
+        表名 __tablename__
+        模型继承，默认继承不会报错，但会将多个表数据映射到一个表中，会造成数据混乱，不满足需求。抽象的模型不会在数据库中产生映射，需要添加属性 __abstract__=True
+33.Dubugtoobar 可以调优或其他的debug信息       
+34.查询：获取单个对象 first ,get(id) ,get_or_404
+         获取结果集： all 返回的是list ；  filter 返回的是 baseQuery对象，baseQuery对象的__str__输出的是这个对象数据的SQL
+         在flask-sqlalchemy中 all 如果使用只能放在最后
+         offset 和 limit 不区分执行顺序，都是先执行offset
+         order_by 调用必须在offset和limit 之前
+         sqlalchemy all()如果使用放在最后面
+         filter_by 用在级联数据上，条件语法精准， 字段 = 值 
+35.addresses = db.relationship('Address',backref='custom',lazy=True) 外键连接后反向引用，不会映射到DB中，不需要重新migrate
+36.逻辑运算：and_,or_,not_
+
+37.数据传输加密，反爬
+    爬虫：Spdier 
+         数据获取
+         数据提取
+         数据存储
+            数据清洗
+    反爬：
+    		数据加密反爬
+    		服务端对特定数据进行特定算法加密
+    		客户端进行特定算法解密
+    		      浏览器端还是可破解的
+    		      安卓和ios端不可破解
+    		基于handler里面的   是不是浏览器反爬
+    		基于IP频率反爬
+    		基于用户身份cookie 反爬
+    		
+38.字符串转二进制 str.encode('utf-8')
+   二进制转字符串 bytes.decode('utf-8')
+   base64.standard_b64encode(二进制格式)
+39.钩子函数：应用程序可以再系统级对所有消息事件进行过滤，访问在正常情况下无法访问的消息
+			before_first_request
+			before_request
+			after_request
+			teaedown_request
+		app.  app级别
+		blue. 蓝图级别
+		面向切面编程，动态介入请求流程
+	Django 请求流程
+	client —》process_Request(是一个列表)->逐一进行process_request -》urls -> process_view(可接受参数路由函数)->逐一进行process_view--》views-->models-->views-->response-->process_response（是一个列表）->逐一进行process_response
+
+40.用户注册激活
+    邮箱 from flask-mail import Mail
+      异步发送邮件
+      在邮件中包含一个激活地址
+         激活地址包含一个一次性的token
+         tocken 是注册时存在cache中的
+         key-value
+            key-token
+            value 用户的唯一标识
+    短信（网易云）
+       同步操作
+      
+41.from flask_restful import Api, Resource
+    endPoint 反向解析 默认是函数名
+    
+    REST ful Representational State Transfer的缩写。意为是"表现层状态转化"
+   1.规范化接口访问方式
+	    GET 读取
+			POST 添加
+			PUT 修改
+			DELETE 删除
+		2、资源标识唯一
+		3、状态的转化
+		4、所有信息都包含在当前请求中
+		5、无状态性
+		6、可实现请求缓存
+		
+42.jason response
+   单个对象
+           data = {
+            "status":200,
+            "msg"   :"ok",
+            "data"  :{
+                "property":"value",
+                "property":"value",
+                "property":"value",
+            }
+        }
+        
+   多个对象        
+        data ={
+            "status": 200,
+            "msg": "ok",
+            "data":[
+                {
+                    "property": "value",
+                    "property": "value",
+                    "property": "value",
+                },
+                {
+                    "property": "value",
+                    "property": "value",
+                    "property": "value",
+                }
+            ] 
+        }
+        
+        实现json 数据序列化 marshal
+43.启动参数 -h主机 -p 端口号 -d 调试 -r 重新加载
+44.flask-restful
+   输出  字典可以直接进行json序列化
+   如果包含对象默认抛异常为对象不可序列化
+       这种情况使用格式化工具
+          maeshal
+          marshal_with
+          格式：
+            字典，允许嵌套，value是fields.xxx
+            数据允许任何格式
+          如果格式和数据完全对应，数据就是预期格式
+          如果格式比数据中字段多，程序正常，不存在的字段为默认值
+          如果格式比数据中字段少，程序正常，不存在的格式数据不显示
+          一切以格式为准       
+   格式中的字段名要和数据中的字段名一致，或者是使用重命名
+        "name":fields.String(attribute="goods_name"),    goods_name 是数据中的字段名
+   也可以设置默认值，如果有修改显示修改后的，没有特殊写显示默认
+        "desc":fields.String(default="lalallalal")
+        
+45.输入 requestParser
+     先定一个requestParse对象，向对象中添加字段，然后从对象中获取字段
+       再添加参数的时候可以实现数据预校验 required=True
+       数据de类型 type = str
+       设置错误提示 help="goods不存在"
+       接收多个值 action="append"   (接收到的值列表)
+       重命名别名（尽量不用） parser.add_argument("mm",desc="aaa")
+   指定 parser 数据的获取位置 location="form"
+                                       args 、 header、cookies、
+                                       
+   
+   
+46.	RESTful 总结
+      一种软件架构
+      前后端分离
+         前端通过异步请求方式和后端交互
+         后端只负责数据处理
+      RESTful 
+         路径是名词复数，不能是动词
+         每个URL表示一种资源
+         通过HTTP 的请求谓词实现资源转换 get，post,put,patch,delete
+      flask-restful
+          使用flask app 初始化一个api对象
+          创建资源 继承系统的Resource 类
+          在api上注册资源
+          对资源添加资源展现形式
+             书写请求方式对应的函数
+          数据的序列化
+          字段输出 
+             使用模板对数据进行格式化
+                模板：字典，value 是fields 子类--format，output    允许嵌套Nested，允许列表 List， 模板可修改默认映射 default attribute
+                数据：从库中查询的，手动创建的
+                格式化：将数据格式化模板的样子
+                        方法 maeshal()
+                        装饰器 marsha1_with()  
+                默认根据模板去数据中找对应的名字
+                以模板为准
+          输入过滤 reqparser.RequesrParser
+                  
+47.表设计
+   1.用户表
+      username
+      password
+      phone
+      email
+      id_delete
+      permission
+    权限设计
+      a.类似于linux权限设计 ---精髓：一个字段可以代表多种权限
+         还能分成2种
+           1.完全和linux一样
+               使用二进制
+               所有的初始权限值都是2的n次幂
+           2.只是给一个数值
+               数值越大，权限越高
+               数只晓得所有权限
+      b.多表权限设计 -- 用户表，权限表，用户权限表
+      
+   taopp 系统权限设计
+      1.只读
+      2.写权限
+      4.修改权限
+      
+48.token 生成 https://blog.csdn.net/pengyaniuniu/article/details/82967227
+
+49.多个接口拥有通用功能，如何复用代码
+    装饰器 - 如果原函数有返回值，默认只有调用的话，返回值会丢弃，如果要接收返回值，要进行数据的返回。 面向切面编程，不修改源代码的情况下添加逻辑，内部参数 *args（接收位置参数，默认值可以自动处理，如果指定关键字参数不能处理） **kwargs 接收关键字参数
+    钩子函数
+    直接封装一个函数
+    创建一个父类，所有需要验证的都调用这个父类
+
+50.前端环境搭建：
+    webstorm  IDE
+    nodejs
+    cnpm
+    coding,码云
+    
+51.创建虚拟环境，需要提前安装 pip install vritualenvwrapper   mkvietualenv -p C:\Users\maxy01\AppData\Local\Programs\Python\Python37-32\python.exe VueShop
+52.提前的库需要安装：Django，pillow,djangorestframework,markdown,django-filter,mysql-client
+pip install django==2.2.11
+from django.contrib.auth.models import AbstractUser
+如果pip 出错，从这个位置下载，然后使用pip install 文件名  https://www.lfd.uci.edu/~gohlke/pythonlibs/#mysqlclient
+pip install https://pypi.douban.com/simple mysqlclient
+
+   apps,extra_apps 右键MarkDir.. to sourceBoot，import 时会带来方便
+   
+   创建的class UserProfile(AbstractUser): 想要替换系统用户，需要在settings中配置 ：AUTH_USER_MODEL = "user.UserProfile"
+   
+   settings 文件增加
+		sys.path.insert(0,BASE_DIR)
+		sys.path.insert(0,os.path.join(BASE_DIR,'apps'))
+		sys.path.insert(0,os.path.join(BASE_DIR,'extra_apps'))
+		
+		   DATABASES = {
+    'default': {
+    'ENGINE': 'django.db.backends.mysql',
+    'NAME': 'mxShop',
+    'USER': 'root',
+    'PASSWORD': 'root',
+    'HOST': '123.57.148.207',
+    'PORT': '3306',
+    'OPTIONS':{'init_command':'SET default_storage_engine=INNODB'}
+    }
+}
+
+
+    STATIC_URL = '/static/'
+		#APP下自定义的静态资源文件夹
+		STATICFILES_DIRS = [os.path.join(BASE_DIR,'static'),
+		                    os.path.join(BASE_DIR,'users/static1')]
+		#资源部署,项目上线时，必须配置STATIC_ROOT，然后执行 python manage.py collectstatic 指令，实现服务器和项目之间的映射 
+		STATIC_ROOT = os.path.join(BASE_DIR,'static_root')
+		
+		SETTINGS 中的TEMPLATES配置 修改包含 根目录的 templates 目录和App下的TEMplates目录 。每个app下都可以新建一个templates 目录
+		"DIRS" =
+   
+53.extra_apps 第三方需要修改的包，不放到运行环境中
+   apps 
+   media 经常变动的资源，例如用户头像 文件夹 存放图片，文件
+   db_tools文件夹，存放python 脚本，例如初始化数据库的脚本
+   
+   创建新的api： 菜单 Tools-->Run manage.oy task  manage.py@mxShop > startapp trade
+   
+54.import 规范
+   系统包，例如os，sys
+   第三方包 例如 flask
+   自己项目的包
+   
+   datatime.now
+	 models.CharField  必须要写max_length
+	 PARENT_CATEGORY = models.Foreignkey("self",null=True,blank=True,verbose_name="父类别")本表外键指向本表，self 是关键
+	 
+	 
+	 
+	 
+
+# Create your models here.
+
+class UserProfile(AbstractUser):
+    """
+    用户
+    """
+    name = models.CharField(max_length=30,null=True,blank=True,verbose_name="姓名")
+    birthday = models.DateField(null=True,blank=True,verbose_name="出生年月")
+    mobile = models.CharField(max_length=11,verbose_name="电话")
+    gender = models.CharField(max_length=6,choices=(("male",u"男"),("female",u"女")),default="male",verbose_name="性别")
+    email = models.CharField(max_length=100,null=True,blank=True,verbose_name="邮箱")
+
+    class Meta :
+        verbose_name = "用户"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.name
+
+class VerifyCode(models.Model):
+    """
+    短信验证码
+    """
+    code = models.CharField(max_length=10,verbose_name="验证码")
+    mobile = models.CharField(max_length=11,verbose_name="电话")
+    add_time = models.DateTimeField(default=datetime.now,verbose_name="添加时间")
+    class Meta :
+        verbose_name = "短信验证码"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.code
+        
+55.  makemigrations 拿所有app 下的 migrations 文件夹，运行 makemigrations 之后会生成 00001.py 脚本，目前只是生成了脚本
+     migrate 是将刚才生成的脚本 创建数据库表，如果是 migrate users 说明只生成 users app 相关表，不指定则都生成
+     如果修改了数据库表中的字段，再次运行 makemigrations 会生成 00002.py脚本，此时在 运行migrate 时，只会运行 00002.py 的脚本，
+       原因是 每次执行migrate 都会在数据库表 django_migrations 这里插入 app 及对应的 。py脚本文件，这个文件执行后就被插入表中，
+        下次再运行其他脚本时，如果数据库中这个.py 脚本已经存在，就不执行这个。所以每次都是最新的
+        
+56.xadmin
+   
+57.特殊登录
+    扫码登录
+       前置条件：
+          有一个登录好的账号
+       使用登录好账号中的token访问自己登录接口
+           常规登录接口
+              用户名，密码，手机号，邮箱
+           特殊登录接口
+              直接通过token登录
+           扫码扫出来的就是特殊登录接口
+    跨应用登录
+    三方登录
+    
+58.撞库问题：
+  利用token 从 redis 中拿到userId，因为后台用户表，影院用户表，用户表三个表都有userId字段，不知道从哪个表中查询信息
+	解决方案：1.token 增加前缀或后缀 例如 admintoken ,通过前后缀判断去查询哪张表
+	2.修改表结构，将userid 字段改为 string类型，存储 uuid（因为uuid 不会用完且唯一）                 
+                         
+                    
+     

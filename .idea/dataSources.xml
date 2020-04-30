@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="flaskAPI@123.57.148.207" uuid="eea70815-99be-4ae6-a952-eab6e67a770e">
+    <data-source source="LOCAL" name="flaskTpp@123.57.148.207" uuid="eea70815-99be-4ae6-a952-eab6e67a770e">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://123.57.148.207:3306/flaskAPI</jdbc-url>
+      <jdbc-url>jdbc:mysql://123.57.148.207:3306/flaskTpp</jdbc-url>
       <driver-properties>
         <property name="autoReconnect" value="true" />
         <property name="zeroDateTimeBehavior" value="convertToNull" />
