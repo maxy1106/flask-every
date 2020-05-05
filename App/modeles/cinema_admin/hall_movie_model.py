@@ -8,3 +8,5 @@ class HallMovie(BaseModel):
     h_id = db.Column(db.Integer,db.ForeignKey(Hall.id))
     m_id = db.Column(db.Integer,db.ForeignKey(Movie.id))
     h_m_date = db.Column(db.DateTime)
+
+    o_movie_orders = db.relationship("MovieOrder",backref="HallMovie",lazy=True)

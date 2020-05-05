@@ -2,19 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="89cd7e84-aceb-4230-959c-c566f21aec50" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/App/alipay_config/alipay_public_2048.pem" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/App/alipay_config/app_private_2048.pem" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/App/apis/movie_user_apis/movie_order_pay_api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/eea70815-99be-4ae6-a952-eab6e67a770e.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/eea70815-99be-4ae6-a952-eab6e67a770e.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/flask_API.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/flask_API.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/App/apis/movie_user_apis/movie_top_api.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App/apis/movie_user_apis/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/App/apis/movie_user_apis/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/App/apis/movie_user_apis/movie_hall_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/App/apis/movie_user_apis/movie_hall_api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/App/apis/movie_user_apis/user_order_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/App/apis/movie_user_apis/user_order_api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/App/setting.py" beforeDir="false" afterPath="$PROJECT_DIR$/App/setting.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/modeles/cinema_admin/hall_movie_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/App/modeles/cinema_admin/hall_movie_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/modeles/common/movie_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/App/modeles/common/movie_model.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,13 +49,6 @@
         <item name="flaskTpp@123.57.148.207" type="feb32156:DbDataSourceImpl" />
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="flaskTpp: schema" type="76f4a085:MysqlImplModel$Schema" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="flaskTpp@123.57.148.207" type="feb32156:DbDataSourceImpl" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="flaskTpp: schema" type="76f4a085:MysqlImplModel$Schema" />
-        <item name="movie_order: table" type="285a2a93:MysqlImplModel$Table" />
       </path>
     </expand>
     <select />
@@ -275,7 +260,32 @@
       <list>
         <serviceView>
           <treeState>
-            <expand />
+            <expand>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="root:flaskTpp@123.57.148.207" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              </path>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="root:flaskTpp@123.57.148.207" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+                <item name="com.intellij.database.console.session.MessageBusSession@385e2eee" type="9fbbdea:ServiceModel$ServiceNode" />
+              </path>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="root:flaskTpp@123.57.148.207" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+                <item name="com.intellij.database.console.session.MessageBusSession@56727cc4" type="9fbbdea:ServiceModel$ServiceNode" />
+              </path>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="root:flaskTpp@123.57.148.207" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+                <item name="com.intellij.database.console.session.MessageBusSession@2c17a6bf" type="9fbbdea:ServiceModel$ServiceNode" />
+              </path>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="root:flaskTpp@123.57.148.207" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+                <item name="com.intellij.database.console.session.MessageBusSession@4f3d2d54" type="9fbbdea:ServiceModel$ServiceNode" />
+              </path>
+            </expand>
             <select />
           </treeState>
         </serviceView>
@@ -328,7 +338,8 @@
       <workItem from="1588518319257" duration="933000" />
       <workItem from="1588519287028" duration="5187000" />
       <workItem from="1588565248775" duration="12102000" />
-      <workItem from="1588652106653" duration="1267000" />
+      <workItem from="1588652106653" duration="2727000" />
+      <workItem from="1588665761970" duration="5965000" />
     </task>
     <servers />
   </component>
@@ -345,36 +356,40 @@
     </state>
     <state x="1070" y="278" key="FileChooserDialogImpl/0.0.1920.1040/-1680.27.1680.1010@0.0.1920.1040" timestamp="1588580231246" />
     <state x="1070" y="278" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1588519873546" />
-    <state width="1293" height="282" key="GridCell.Tab.0.bottom" timestamp="1588579913519">
+    <state width="1293" height="315" key="GridCell.Tab.0.bottom" timestamp="1588673678884">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1293" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1680.27.1680.1010@0.0.1920.1040" timestamp="1588579913519" />
-    <state width="1293" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1588565249221" />
-    <state width="1293" height="282" key="GridCell.Tab.0.center" timestamp="1588579913504">
+    <state width="1293" height="315" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1588673678884" />
+    <state width="1293" height="315" key="GridCell.Tab.0.center" timestamp="1588673678884">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1293" height="282" key="GridCell.Tab.0.center/0.0.1920.1040/-1680.27.1680.1010@0.0.1920.1040" timestamp="1588579913504" />
-    <state width="1293" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1588565249221" />
-    <state width="1293" height="282" key="GridCell.Tab.0.left" timestamp="1588579913504">
+    <state width="1293" height="315" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1588673678884" />
+    <state width="1293" height="315" key="GridCell.Tab.0.left" timestamp="1588673678884">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1293" height="282" key="GridCell.Tab.0.left/0.0.1920.1040/-1680.27.1680.1010@0.0.1920.1040" timestamp="1588579913504" />
-    <state width="1293" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1588565249221" />
-    <state width="1293" height="282" key="GridCell.Tab.0.right" timestamp="1588579913519">
+    <state width="1293" height="315" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1588673678884" />
+    <state width="1293" height="315" key="GridCell.Tab.0.right" timestamp="1588673678884">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1293" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/-1680.27.1680.1010@0.0.1920.1040" timestamp="1588579913519" />
-    <state width="1293" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1588565249221" />
+    <state width="1293" height="315" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1588673678884" />
     <state x="328" y="182" key="SettingsEditor" timestamp="1588519878051">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="161" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1588503020803" />
     <state x="328" y="182" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1588519878051" />
-    <state x="645" y="343" key="com.intellij.ide.util.TipDialog" timestamp="1588652149009">
+    <state x="645" y="343" key="com.intellij.ide.util.TipDialog" timestamp="1588665761333">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="645" y="343" key="com.intellij.ide.util.TipDialog/0.0.1920.1040/-1680.27.1680.1010@0.0.1920.1040" timestamp="1588652149009" />
     <state x="645" y="343" key="com.intellij.ide.util.TipDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1588502896345" />
-    <state x="645" y="343" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588565253569" />
+    <state x="645" y="343" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588665761333" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1588671352964">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1588671352964" />
   </component>
 </project>

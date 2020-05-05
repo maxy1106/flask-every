@@ -17,3 +17,4 @@ class Movie(BaseModel):
     backgroundpicture = db.Column(db.String(256))
     flag = db.Column(db.Boolean,default=False)
     isdelete = db.Column(db.Boolean,default=False)
+    hall_movies = db.relationship("HallMovie",backref = "Movie",lazy=True)
