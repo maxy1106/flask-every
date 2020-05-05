@@ -60,3 +60,8 @@ envs = {
 BASE_DIR = os.path.dirname(__file__)
 FILE_UP_LOADS = '/static/movie/icon/'
 FILE_UP_LOADS_PATH = BASE_DIR + '/static/movie/icon/'
+
+#支付宝
+ALIPAY_APPID="2016102300744109"
+APP_PRIVATE_KEY = open(os.path.join(BASE_DIR,"alipay_config/app_private_2048.pem"),'r').read()
+ALIPAY_PUBLIC_KEY = open(os.path.join(BASE_DIR,"alipay_config/alipay_public_2048.pem"),'r').read()

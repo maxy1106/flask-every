@@ -1,9 +1,14 @@
+import datetime
+
 from flask_restful import Resource, reqparse, fields, marshal
+from sqlalchemy.sql.elements import or_, and_
 
 from App.apis.api_constant import HTTP_OK
 from App.apis.movie_user_apis.utils import login_required
 from App.modeles.cinema_admin.cinema_hall_model import Hall
 from App.modeles.cinema_admin.hall_movie_model import HallMovie
+from App.modeles.user.movie_order_model import MovieOrder, ORDER_STATUS_PAYED_NOT_GET, ORDER_STATUS_GET, \
+    ORDER_STATUS_NOT_PAY
 
 parse = reqparse.RequestParser()
 parse.add_argument("address_id")
@@ -68,6 +73,34 @@ class UserMovieHallResource(Resource):
         print(id)
 
         hall = Hall.query.get(hall_movie.h_id)
+
+        movie_order_buyed = MovieOrder.query.filter(MovieOrder.o_hall_movie_id == id).filter(or_(MovieOrder.o_status == ORDER_STATUS_PAYED_NOT_GET,MovieOrder.o_status == ORDER_STATUS_GET)).all()
+
+        movie_order_locked = MovieOrder.query.filter(MovieOrder.o_hall_movie_id == id).filter(and_(MovieOrder.o_status == ORDER_STATUS_NOT_PAY,MovieOrder.o_time > datetime.datetime.now())).all()
+
+        print("movie_order_buyed",movie_order_buyed)
+        print("movie_order_locked",movie_order_locked)
+
+        seats_lock =[]
+
+        for movie_order in movie_order_buyed:
+            seats = movie_order.o_seats.split("#")
+
+            seats_lock += seats
+
+        for movie_order in movie_order_locked:
+            seats = movie_order.o_seats.split("#")
+            seats_lock += seats
+
+        print("seats_lock",seats_lock)
+
+        seats_can_buy = list(set(hall.h_seate.split("#")) ^ set(seats_lock))
+
+        print("all",hall.h_seate.split("#"))
+
+        print("seats_can_buy",seats_can_buy)
+
+        hall.h_seate = "#".join(seats_can_buy)
 
         data = {
             "msg":"hall info ok",
